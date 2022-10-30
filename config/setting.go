@@ -13,6 +13,7 @@ type Profile struct {
 type Setting struct {
 	Server   server   `yaml:"server"`
 	Database database `yaml:"database"`
+	Env      string   `yaml:"env"`
 }
 
 type database struct {
@@ -31,10 +32,10 @@ var conf = &Setting{}
 var env_config = &Profile{}
 
 func init() {
-	funcName()
+	loadConfig()
 }
 
-func funcName() {
+func loadConfig() {
 	config, err := ioutil.ReadFile("./config/profile.yml")
 	if err != nil {
 		fmt.Errorf("配置文件profile.yml读取错误", err)

@@ -1,3 +1,4 @@
+env: pro
 server:
   port: 8082
 database:

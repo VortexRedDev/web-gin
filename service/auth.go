@@ -6,7 +6,7 @@ import (
 )
 
 func Auth(c *gin.Context) {
-	log.Logger.Info("权限验证")
+	log.Log.Info("权限验证")
 	//log.Panicln("权限验证")
 
 	c.Next()

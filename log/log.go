@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"github/xiaoda-ye/web-gin/config"
 	"io"
 	"os"
 	"path"
@@ -14,9 +15,12 @@ var (
 	//日志文件名
 	logFileName = "gin.log"
 )
-var Logger = logrus.New()
+var Log *logrus.Entry
 
 func init() {
+	Log = loadLog()
+}
+func loadLog() *logrus.Entry {
 	// 日志文件
 	fileName := path.Join(logFilePath, logFileName)
 	// 写入文件
@@ -24,16 +28,23 @@ func init() {
 	if err != nil {
 		fmt.Println("err", err)
 	}
-
-	Logger.SetFormatter(&logrus.JSONFormatter{
-
+	lg := logrus.New()
+	lg.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat: "2006-01-02 15:04:05", //时间格式
-
 	})
-	Logger.SetOutput(io.MultiWriter(src, os.Stdout))
-	Logger.SetLevel(logrus.DebugLevel)
+	env := config.Conf().Env
+	if env == "dev" {
+		lg.SetOutput(os.Stdout)
+	} else if env == "pro" {
+		lg.SetOutput(src)
+	}
+	lg.SetLevel(logrus.DebugLevel)
+	Log := lg.WithFields(logrus.Fields{
+		"version": "1.0",
+		"env":     config.Conf().Env,
+	})
+	return Log
 }
-
 func LoggerWriter() io.Writer {
-	return Logger.Out
+	return Log.Logger.Out
 }

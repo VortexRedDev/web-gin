@@ -31,7 +31,7 @@ func Ping(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 200, "data": data})
-	log.Logger.Info("sdsdadas", data)
+	log.Log.Info("sdsdadas")
 }
 func Save(c *gin.Context) {
 	username := c.PostForm("username")
