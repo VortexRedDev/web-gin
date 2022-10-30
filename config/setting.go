@@ -29,7 +29,7 @@ type server struct {
 }
 
 var conf = &Setting{}
-var env_config = &Profile{}
+var envConfig = &Profile{}
 
 func init() {
 	loadConfig()
@@ -41,18 +41,18 @@ func loadConfig() {
 		fmt.Errorf("配置文件profile.yml读取错误", err)
 		panic("配置文件profile.yml读取错误")
 	}
-	err = yaml.Unmarshal(config, env_config)
+	err = yaml.Unmarshal(config, envConfig)
 
-	file, err := ioutil.ReadFile("./config/" + env_config.Profile + ".yml")
+	file, err := ioutil.ReadFile("./config/" + envConfig.Profile + ".yml")
 	if err != nil {
-		fmt.Errorf("配置文件"+env_config.Profile+"读取错误", err)
-		panic("配置文件" + env_config.Profile + "读取错误")
+		fmt.Errorf("配置文件"+envConfig.Profile+"读取错误", err)
+		panic("配置文件" + envConfig.Profile + "读取错误")
 	}
 	err = yaml.Unmarshal(file, conf)
 
 	if err != nil {
-		fmt.Errorf("配置文件"+env_config.Profile+"读取错误", err)
-		panic("配置文件" + env_config.Profile + "读取错误")
+		fmt.Errorf("配置文件"+envConfig.Profile+"读取错误", err)
+		panic("配置文件" + envConfig.Profile + "读取错误")
 	}
 }
 
