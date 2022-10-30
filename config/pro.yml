@@ -1,0 +1,8 @@
+server:
+  port: 8082
+database:
+  type: mysql
+  user: root
+  password: 123456
+  host: 127.0.0.1:3306
+  dbname: test

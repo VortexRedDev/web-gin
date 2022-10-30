@@ -2,7 +2,8 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	model "github/xiaoda-ye/web-gin/model"
+	"github/xiaoda-ye/web-gin/log"
+	"github/xiaoda-ye/web-gin/model"
 	"net/http"
 	"strconv"
 	"time"
@@ -11,12 +12,12 @@ import (
 func Ping(c *gin.Context) {
 	page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
 	if err != nil {
-		c.JSON(200, gin.H{"code": "500", "msg": err})
+		c.JSON(http.StatusOK, gin.H{"code": "500", "msg": err})
 		return
 	}
 	size, err := strconv.Atoi(c.DefaultQuery("size", "2"))
 	if err != nil {
-		c.JSON(200, gin.H{"code": "500", "msg": err})
+		c.JSON(http.StatusOK, gin.H{"code": "500", "msg": err})
 		return
 	}
 	keyword := c.Query("keyword")
@@ -26,13 +27,13 @@ func Ping(c *gin.Context) {
 	data := make([]*model.User, 0)
 	err = tx.Count(&count).Offset(page).Limit(size).Find(&data).Error
 	if err != nil {
-		c.JSON(200, gin.H{"code": "500", "msg": err})
+		c.JSON(http.StatusBadGateway, gin.H{"code": "500", "msg": err})
 		return
 	}
-	c.JSON(200, gin.H{"code": 200, "data": data})
+	c.JSON(http.StatusOK, gin.H{"code": 200, "data": data})
+	log.Logger.Info("sdsdadas", data)
 }
 func Save(c *gin.Context) {
-	c.Redirect(http.StatusFound, "")
 	username := c.PostForm("username")
 	email := c.PostForm("email")
 
@@ -44,8 +45,8 @@ func Save(c *gin.Context) {
 
 	tx := model.Save(user)
 	if tx.Error != nil {
-		c.JSON(200, gin.H{"code": "500", "msg": tx.Error})
+		c.JSON(http.StatusOK, gin.H{"code": "500", "msg": tx.Error})
 		return
 	}
-	c.JSON(200, gin.H{"code": 200, "data": tx.RowsAffected, "id": user.ID})
+	c.JSON(http.StatusOK, gin.H{"code": 200, "data": tx.RowsAffected, "id": user.ID})
 }
