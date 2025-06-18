@@ -1,0 +1,6 @@
+{"env":"pro","level":"info","msg":"权限验证","time":"2022-10-30 19:32:57","version":"1.0"}
+{"env":"pro","level":"info","msg":"sdsdadas","time":"2022-10-30 19:32:57","version":"1.0"}
+[GIN] 2022/10/30 - 19:32:57 | 200 |     20.5617ms |       127.0.0.1 | GET      "/api/user/list?keyword=&page=1&size=20"
+{"env":"pro","level":"info","msg":"权限验证","time":"2022-10-30 19:36:45","version":"1.0"}
+{"env":"pro","level":"info","msg":"sdsdadas","time":"2022-10-30 19:36:45","version":"1.0"}
+[GIN] 2022/10/30 - 19:36:45 | 200 |     22.3832ms |       127.0.0.1 | GET      "/api/user/list?keyword=&page=1&size=20"

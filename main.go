@@ -13,8 +13,7 @@ func main() {
 	r.Use(gin.LoggerWithWriter(log.LoggerWriter()), gin.Recovery())
 	r.StaticFS("/statics", http.Dir("statics"))
 	r.StaticFile("/favicon.ico", "./statics/favicon.ico")
-
+	
 	router.Router(r)
-	r.Run(":" + config.Conf().Server.Port)
-
+	r.Run(":" + config.Getsetting().Server.Port)
 }

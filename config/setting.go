@@ -1,9 +1,9 @@
 package config
 
 import (
-	"fmt"
-	"gopkg.in/yaml.v2"
-	"io/ioutil"
+	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
 type Profile struct {
@@ -11,12 +11,12 @@ type Profile struct {
 }
 
 type Setting struct {
-	Server   server   `yaml:"server"`
-	Database database `yaml:"database"`
+	Server   Server   `yaml:"server"`
+	Database Database `yaml:"database"`
 	Env      string   `yaml:"env"`
 }
 
-type database struct {
+type Database struct {
 	Type     string `yaml:"type"`
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
@@ -24,38 +24,36 @@ type database struct {
 	DBName   string `yaml:"dbname"`
 }
 
-type server struct {
+type Server struct {
 	Port string `yaml:"port"`
 }
 
-var conf = &Setting{}
-var envConfig = &Profile{}
+var setting = &Setting{}
 
 func init() {
 	loadConfig()
 }
 
 func loadConfig() {
-	config, err := ioutil.ReadFile("./config/profile.yml")
+	config, err := os.ReadFile("./config/profile.yml")
 	if err != nil {
-		fmt.Errorf("配置文件profile.yml读取错误", err)
 		panic("配置文件profile.yml读取错误")
 	}
-	err = yaml.Unmarshal(config, envConfig)
-
-	file, err := ioutil.ReadFile("./config/" + envConfig.Profile + ".yml")
+	var envConfig = &Profile{}
+	err = yaml.Unmarshal([]byte(config), &envConfig)
 	if err != nil {
-		fmt.Errorf("配置文件"+envConfig.Profile+"读取错误", err)
 		panic("配置文件" + envConfig.Profile + "读取错误")
 	}
-	err = yaml.Unmarshal(file, conf)
-
+	file, err := os.ReadFile("./config/" + envConfig.Profile + ".yml")
 	if err != nil {
-		fmt.Errorf("配置文件"+envConfig.Profile+"读取错误", err)
+		panic("配置文件" + envConfig.Profile + "读取错误")
+	}
+	err = yaml.Unmarshal(file, &setting)
+	if err != nil {
 		panic("配置文件" + envConfig.Profile + "读取错误")
 	}
 }
 
-func Conf() *Setting {
-	return conf
+func Getsetting() *Setting {
+	return setting
 }

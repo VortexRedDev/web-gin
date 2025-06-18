@@ -40,7 +40,7 @@ func Save(c *gin.Context) {
 	user := model.User{
 		Username:   username,
 		Email:      email,
-		CreateDate: model.MyTime(time.Now()),
+		CreateDate: model.MyTime(time.Now()).ToTime(),
 	}
 
 	tx := model.Save(user)
@@ -48,5 +48,5 @@ func Save(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": "500", "msg": tx.Error})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"code": 200, "data": tx.RowsAffected, "id": user.ID})
+	c.JSON(http.StatusOK, gin.H{"code": 200, "data": tx.RowsAffected, "id": user.Id})
 }

@@ -26,7 +26,7 @@ func loadLog() *logrus.Entry {
 	lg.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat: "2006-01-02 15:04:05", //时间格式
 	})
-	env := config.Conf().Env
+	env := config.Getsetting().Env
 	if env == "dev" {
 		lg.SetOutput(os.Stdout) //输出控制台
 	} else if env == "pro" {
@@ -43,7 +43,7 @@ func loadLog() *logrus.Entry {
 	lg.SetLevel(logrus.DebugLevel)
 	Log := lg.WithFields(logrus.Fields{
 		"version": "1.0",
-		"env":     config.Conf().Env, // 日志的公共属性
+		"env":     config.Getsetting().Env, // 日志的公共属性
 	})
 	return Log
 }

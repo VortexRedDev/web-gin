@@ -1,12 +1,15 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type User struct {
-	ID         uint   `gorm:"primarykey;" json:"id"`
+	CreateDate time.Time `gorm:"column:create_date;type:datetime;" json:"create_date"`
 	Username   string `gorm:"column:username;type:varchar(255);" json:"username"`
 	Email      string `gorm:"column:email;type:varchar(255);" json:"email"`
-	CreateDate MyTime `gorm:"column:create_date;type:datetime;" json:"create_date"`
+	Id 	   int `gorm:"column:id;type:int;primaryKey;autoIncrement;" json:"id"`
 }
 
 func (table *User) TableName() string {

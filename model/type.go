@@ -19,6 +19,9 @@ func (t MyTime) Value() (driver.Value, error) {
 	tTime := time.Time(t)
 	return tTime.Format(patten), nil
 }
+func (t MyTime) ToTime() time.Time {
+    return time.Time(t)
+}
 
 //func (t *MyTime) Scan(v interface{}) error {
 //	if value, ok := v.(time.Time); ok {
